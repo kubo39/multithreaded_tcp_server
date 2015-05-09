@@ -42,9 +42,13 @@ class ThreadedTcpServer
 {
   TcpListener listener;
 
-  this(ushort port, int backlog = 1024)
+  this(ushort port)
   {
     listener = new TcpListener(port);
+  }
+
+  void listen(int backlog = 1024)
+  {
     listener.listen(backlog);
   }
 
