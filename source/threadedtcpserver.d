@@ -4,6 +4,7 @@ module threadedtcpserver;
 debug(printlog) import std.stdio;
 import std.socket;
 import std.concurrency;
+import core.time;
 
 
 class TcpListener
@@ -49,17 +50,29 @@ class ThreadedTcpServer
 
   void run(void function(Socket) handler, uint nthreads = 2)
   {
+    uint counter = nthreads;
+
     for (int i; i< nthreads; ++i) {
       spawn(&spawnedFunc, thisTid, cast(shared)listener, handler);
     }
-    for (;;) { /* sleep */ }
+
+    for (;;) {
+      receiveTimeout(dur!"msecs"(10), (Tid tid) {
+          counter--;
+        });
+
+      if (counter == 0) {
+        break;
+      }
+    }
   }
 }
 
 
 private void spawnedFunc(Tid ownerTid, shared(TcpListener) listener,
-                 void function(Socket) handler)
+                         void function(Socket) handler)
 {
+  scope(exit) ownerTid.send(thisTid);
   for (;;) {
     Socket sock = listener.accept;
     debug(printlog) writeln("Accepted: ", thisTid);
