@@ -1,0 +1,7 @@
+{
+    "name": "echoserver",
+    "description": "echo server sample",
+    "dependencies": {
+        "threadedtcpserver": {"version": "~master", "path": "../"}
+    }
+}
