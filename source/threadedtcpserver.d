@@ -1,5 +1,5 @@
 /**
- * This is a low-level module for creating mulitthreaded tcp server system.
+ * This is a low-level module for creating multithreaded tcp server system.
  *
  * Synopsis:
  * ---
