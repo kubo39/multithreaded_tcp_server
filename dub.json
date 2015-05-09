@@ -1,0 +1,7 @@
+{
+    "name": "threadedtcpserver",
+    "authors": ["kubo39"],
+    "targetname": "threadedtcpserver",
+    "targetType": "library",
+    "targetPath": "build"
+}

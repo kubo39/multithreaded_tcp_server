@@ -1,4 +1,6 @@
 *~
 *.o
 *.a
-tcpserver
+build/
+.dub
+dub.selections.json

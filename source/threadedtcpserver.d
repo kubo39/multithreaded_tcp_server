@@ -1,4 +1,7 @@
-import std.stdio;
+module threadedtcpserver;
+
+
+debug(printlog) import std.stdio;
 import std.socket;
 import std.concurrency;
 
@@ -49,32 +52,17 @@ class ThreadedTcpServer
     for (int i; i< nthreads; ++i) {
       spawn(&spawnedFunc, thisTid, cast(shared)listener, handler);
     }
-    for (;;) { /* sleep */ };
+    for (;;) { /* sleep */ }
   }
 }
 
 
-void spawnedFunc(Tid ownerTid, shared(TcpListener) listener,
+private void spawnedFunc(Tid ownerTid, shared(TcpListener) listener,
                  void function(Socket) handler)
 {
   for (;;) {
     Socket sock = listener.accept;
-    writeln("Accepted: ", thisTid);
+    debug(printlog) writeln("Accepted: ", thisTid);
     handler(sock);
   }
 }
-
-
-void main()
-{
-  auto server = new ThreadedTcpServer(4000);
-  server.run((sock) {
-      ubyte[1024] buffer;
-      scope (exit) sock.close;
-
-      sock.receive(buffer);
-      writeln(cast(string) buffer);
-      sock.send(buffer);
-    });
-}
-
