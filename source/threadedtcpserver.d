@@ -55,9 +55,17 @@ class ThreadedTcpServer
   void run(void function(Socket) handler, uint nthreads = 2)
   {
     uint counter = nthreads;
+    Tid ownerTid = thisTid;
 
     for (int i; i< nthreads; ++i) {
-      spawn(&spawnedFunc, thisTid, cast(shared)listener, handler);
+      spawn(cast(void delegate() shared) () {
+          scope(exit) ownerTid.send(thisTid);
+          for (;;) {
+            Socket sock = (cast(shared)listener).accept;
+            debug(printlog) writeln("Accepted: ", thisTid);
+            handler(sock);
+          }
+        });
     }
 
     for (;;) {
@@ -69,17 +77,5 @@ class ThreadedTcpServer
         break;
       }
     }
-  }
-}
-
-
-private void spawnedFunc(Tid ownerTid, shared(TcpListener) listener,
-                         void function(Socket) handler)
-{
-  scope(exit) ownerTid.send(thisTid);
-  for (;;) {
-    Socket sock = listener.accept;
-    debug(printlog) writeln("Accepted: ", thisTid);
-    handler(sock);
   }
 }
