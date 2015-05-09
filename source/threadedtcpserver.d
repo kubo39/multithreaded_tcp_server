@@ -21,8 +21,8 @@
  *       writeln(cast(string) buffer);
  *       sock.send(buffer);
  *     });
- *}
- *---
+ * }
+ * ---
  */
 
 module threadedtcpserver;
