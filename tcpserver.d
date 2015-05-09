@@ -34,7 +34,7 @@ class TcpListener
 }
 
 
-class ThreadedServer
+class ThreadedTcpServer
 {
   TcpListener listener;
 
@@ -67,7 +67,7 @@ void spawnedFunc(Tid ownerTid, shared(TcpListener) listener,
 
 void main()
 {
-  auto server = new ThreadedServer(4000);
+  auto server = new ThreadedTcpServer(4000);
   server.run((sock) {
       ubyte[1024] buffer;
       scope (exit) sock.close;
