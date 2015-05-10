@@ -115,6 +115,9 @@ class ThreadedTcpServer
             Socket sock = (cast(shared)listener).accept;
             debug(printlog) writeln("Accepted: ", thisTid);
             handler(sock);
+            if (sock !is null) {
+              sock.close;
+            }
           }
         });
     }
