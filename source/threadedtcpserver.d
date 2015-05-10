@@ -54,6 +54,14 @@ class TcpListener
   }
 
   /**
+   * Destructor.
+   */
+  ~this()
+  {
+    close();
+  }
+
+  /**
    * Listen for an incoming connection.
    */
   void listen(int backlog)
@@ -73,6 +81,16 @@ class TcpListener
       }
     }
     return sock;
+  }
+
+  /**
+   * Close listener socket.
+   */
+  void close()
+  {
+    if (listener !is null) {
+      (cast()listener).close;
+    }
   }
 }
 
