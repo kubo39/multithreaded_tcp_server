@@ -110,7 +110,7 @@ class TcpListener
   /**
    * Close listener socket.
    */
-  void close()
+  void close() nothrow @nogc
   {
     if (listener !is null) {
       (cast()listener).close;
