@@ -66,6 +66,18 @@ class TcpListener
   }
 
   /**
+   * ditto.
+   */
+  this(InternetAddress ia)
+  {
+    TcpSocket tmp = new TcpSocket;
+    assert(tmp.isAlive);
+    tmp.setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, 1);
+    tmp.bind(ia);
+    listener = cast(shared) tmp;
+  }
+
+  /**
    * Destructor.
    */
   ~this()
@@ -128,6 +140,14 @@ class ThreadedTcpServer
   this(string hostname, ushort port)
   {
     listener = new TcpListener(hostname, port);
+  }
+
+  /**
+   * ditto.
+   */
+  this(InternetAddress ia)
+  {
+    listener = new TcpListener(ia);
   }
 
   /**
