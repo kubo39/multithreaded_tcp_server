@@ -64,7 +64,7 @@ class TcpListener
   /**
    * Accept an incoming connection.
    */
-  Socket accept() shared
+  Socket accept()
   {
     Socket sock = (cast()listener).accept;
     scope (failure) {
@@ -112,7 +112,7 @@ class ThreadedTcpServer
       spawn(cast(void delegate() shared) () {
           scope(exit) ownerTid.send(thisTid);
           for (;;) {
-            Socket sock = (cast(shared)listener).accept;
+            Socket sock = listener.accept;
             debug(printlog) writeln("Accepted: ", thisTid);
             handler(sock);
             if (sock !is null) {
