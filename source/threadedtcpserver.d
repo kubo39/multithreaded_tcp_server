@@ -119,13 +119,15 @@ class ThreadedTcpServer
         });
     }
 
-    for (;;) {
+    bool running = true;
+
+    while (running) {
       receiveTimeout(dur!"msecs"(10), (Tid tid) {
           counter--;
         });
 
       if (counter == 0) {
-        break;
+        running = false;
       }
     }
   }
