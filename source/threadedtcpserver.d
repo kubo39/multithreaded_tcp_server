@@ -111,6 +111,14 @@ class ThreadedTcpServer
   }
 
   /**
+   * Destructor.
+   */
+  ~this()
+  {
+    listener.close;
+  }
+
+  /**
    * Listen for an incoming connection.
    */
   void listen(int backlog = 1024)
