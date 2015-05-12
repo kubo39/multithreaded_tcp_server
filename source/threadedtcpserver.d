@@ -88,7 +88,7 @@ class TcpListener
   /**
    * Accept an incoming connection.
    */
-  Socket accept()
+  Socket accept() @property
   {
     Socket sock = (cast()listener).accept;
     scope (failure) {
@@ -102,7 +102,7 @@ class TcpListener
   /**
    * Close listener socket.
    */
-  void close() nothrow @nogc
+  void close() nothrow @nogc @property
   {
     if (listener !is null) {
       (cast()listener).close;
