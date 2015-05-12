@@ -44,12 +44,12 @@ class TcpListener
   /**
    * Constructs a Tcp listener.
    */
-  this(ushort port)
+  this(InternetAddress ia)
   {
     TcpSocket tmp = new TcpSocket;
     assert(tmp.isAlive);
     tmp.setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, 1);
-    tmp.bind(new InternetAddress(port));
+    tmp.bind(ia);
     listener = cast(shared) tmp;
   }
 
@@ -58,23 +58,15 @@ class TcpListener
    */
   this(string hostname, ushort port)
   {
-    TcpSocket tmp = new TcpSocket;
-    assert(tmp.isAlive);
-    tmp.setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, 1);
-    tmp.bind(new InternetAddress(hostname, port));
-    listener = cast(shared) tmp;
+    this(new InternetAddress(hostname, port));
   }
 
   /**
-   * ditto.
+   * ditto, but localhost.
    */
-  this(InternetAddress ia)
+  this(ushort port)
   {
-    TcpSocket tmp = new TcpSocket;
-    assert(tmp.isAlive);
-    tmp.setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, 1);
-    tmp.bind(ia);
-    listener = cast(shared) tmp;
+    this(new InternetAddress(port));
   }
 
   /**
